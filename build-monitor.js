@@ -76,6 +76,8 @@ board.on("ready", function() {
 
 			ch.consume("jenkins-ci-result", function(msg) {
 				var obj = JSON.parse(msg.content.toString("utf8"));
+				console.log("Project : %s", obj.project);
+				console.log("Number : %s", obj.number);
 				console.log("Status : %s", obj.status);
 			}, {noAck: true});
 		});
