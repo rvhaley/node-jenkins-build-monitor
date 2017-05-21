@@ -1,5 +1,5 @@
 var five = require("johnny-five");
-var rotaryEncoder = require("johnny-five-rotary-encoder");
+// var rotaryEncoder = require("johnny-five-rotary-encoder");
 var amqp = require('amqplib/callback_api');
 
 var board;
@@ -45,11 +45,14 @@ board.on("ready", function() {
 		if (err) console.error(err);
 		conn.createChannel(function(err, ch) {
 			ch.assertQueue("jenkins-ci", {exclusive: true, autoDelete: true});
+			ch.assertQueue("jenkins-ci-result", {exclusive: true, autoDelete: true});
+			ch.bindQueue("jenkins-ci-result", "build-monitor", "ROUTINGKEY");
+			ch.bindQueue("jenkins-ci-result", "build-monitor", "org.jenkinsci.plugins.rabbitmqbuildtrigger");
+
 			ch.consume("jenkins-ci", function(msg) {
 				var split = msg.content.toString().split("#");
 				if (split[2] === "building") {
 					console.log(split[0]);
-					//lcd.print(split[0]);
 
 					lcd.print(splitTitleForLCD(split[0], 2, 16, 0));
 					lcd.cursor(1, 0);
@@ -69,7 +72,12 @@ board.on("ready", function() {
 				} else if (split[2] === "unstable") {
 					showUnstable(split[2]);
 				}
-			}, {noAck:true});
+			}, {noAck: true});
+
+			ch.consume("jenkins-ci-result", function(msg) {
+				var obj = JSON.parse(msg.content.toString("utf8"));
+				console.log("Status : %s", obj.status);
+			}, {noAck: true});
 		});
 	});
 });
