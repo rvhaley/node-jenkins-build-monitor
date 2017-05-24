@@ -65,12 +65,6 @@ board.on("ready", function() {
 						ledBlue.stop().off();
 					}, 30000);
 					playMusic();
-				} else if (split[2] === "success") {
-					showSuccess(split[2])
-				} else if (split[2] === "failed") {
-					showFailed(split[2]);
-				} else if (split[2] === "unstable") {
-					showUnstable(split[2]);
 				}
 			}, {noAck: true});
 
@@ -79,6 +73,13 @@ board.on("ready", function() {
 				console.log("Project : %s", obj.project);
 				console.log("Number : %s", obj.number);
 				console.log("Status : %s", obj.status);
+				if (obj.status === "SUCCESS") {
+					showSuccess();
+				} else if (obj.status === "FAILED") {
+					showFailed();
+				} else if (obj.status === "UNSTABLE") {
+					showUnstable();
+				}
 			}, {noAck: true});
 		});
 	});
@@ -92,8 +93,8 @@ function splitTitleForLCD(title, rows, cols, currentRow) {
 	}
 }
 
-function showSuccess(success) {
-	console.log(success);
+function showSuccess() {
+	console.log("success");
 	ledBlue.stop().off();
 	ledGreen.blink();
 	setTimeout(function() {
@@ -102,8 +103,8 @@ function showSuccess(success) {
 	}, 10000);
 }
 
-function showFailed(failed) {
-	console.log(failed);
+function showFailed() {
+	console.log("failed");
 	ledBlue.stop().off();
 	ledRed.blink();
 	setTimeout(function() {
@@ -112,8 +113,8 @@ function showFailed(failed) {
 	}, 10000);
 }
 
-function showUnstable(unstable) {
-	console.log(unstable);
+function showUnstable() {
+	console.log("unstable");
 	ledBlue.stop().off();
 	ledYellow.blink();
 	setTimeout(function() {
