@@ -1,5 +1,4 @@
 var five = require("johnny-five");
-// var rotaryEncoder = require("johnny-five-rotary-encoder");
 var amqp = require('amqplib/callback_api');
 
 var board;
@@ -15,26 +14,6 @@ board.on("ready", function() {
 	ledRed = new five.Led(11);
 	ledYellow = new five.Led(12);
 	piezo = new five.Piezo(3);
-
-/*
-	const upButton = new five.Button(28);
-	const downButton = new five.Button(18);
-	const pressButton = new five.Button(19);
-	rotaryEncoder({
-		upButton,
-		downButton,
-		pressButton,
-		onUp: () => {
-			console.log("up");
-		}, 
-		onDown: () => {
-			console.log("down");
-		},
-		onPress: () => {
-			console.log("press");
-		},
-	});
-*/
 
 	lcd = new five.LCD({
     	// LCD pin name  RS  EN  DB4 DB5 DB6 DB7
