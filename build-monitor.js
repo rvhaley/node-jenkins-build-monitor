@@ -41,7 +41,7 @@ board.on("ready", function() {
 					setTimeout(function() {
 						ledBlue.stop().off();
 					}, 30000);
-					playMusic();
+					//playMusic();
 				}
 			}, {noAck: true});
 
