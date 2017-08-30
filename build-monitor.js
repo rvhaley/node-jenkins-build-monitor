@@ -3,7 +3,6 @@ var amqp = require('amqplib/callback_api');
 
 var board;
 var ledBlue, ledGreen, ledRed, ledYellow;
-var piezo;
 var lcd;
 
 board = new five.Board();
@@ -13,7 +12,6 @@ board.on("ready", function() {
 	ledGreen = new five.Led(10);
 	ledRed = new five.Led(11);
 	ledYellow = new five.Led(12);
-	piezo = new five.Piezo(3);
 
 	lcd = new five.LCD({
     	// LCD pin name  RS  EN  DB4 DB5 DB6 DB7
@@ -100,44 +98,4 @@ function showUnstable() {
 		ledYellow.stop().off();
 		lcd.clear();
 	}, 10000);
-}
-
-function playMusic() {
-	piezo.play({
-		song: [
-			["C2", 1 / 4],
-			["F3", 1 / 4],
-			["C3", 1 / 4],
-			["A2", 1 / 4],
-			["C3", 1 / 4],
-			["F3", 1 / 4],
-			["C3", 1 / 2],
-			["C3", 1 / 4],
-			["F3", 1 / 4],
-			["C3", 1 / 4],
-			["F3", 1 / 4],
-			["A3", 1 / 3],
-			["G3", 1 / 8],
-			["F3", 1 / 8],
-			["E3", 1 / 8],
-			["D3", 1 / 8],
-			["C3", 1 / 8],
-			["C3", 1 / 4],
-			["F3", 1 / 4],
-			["A3", 1 / 4],
-			["A2", 1 / 4],
-			["C3", 1 / 4],
-			["F3", 1 / 4],
-			["C3", 1 / 2],
-			["A3", 1 / 4],
-			[null, 1 / 8],
-			["G3", 1 / 8],
-			["F3", 1 / 4],
-			["E3", 1 / 4],
-			["D3", 1 / 4],
-			["C3", 1 / 4],
-			["C3", 1 / 4]
-		],
-		tempo: 50
-	});
 }
